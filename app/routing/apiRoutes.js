@@ -16,7 +16,7 @@ module.exports = function(app) {
                     compareScores[i] = Math.abs(e - searchScores[i]);
                 });
                 console.log(compareScores);
-
+                
             });
 
 
