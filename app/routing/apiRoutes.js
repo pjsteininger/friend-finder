@@ -1,4 +1,5 @@
 var friendList = require("../data/friends");
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
 module.exports = function(app) {
 
@@ -8,8 +9,19 @@ module.exports = function(app) {
 
     app.post("/api/friends", function(req, res){
         if (req.body) {
+            var searchScores = req.body.scores;
+            var compareScores = new Array(searchScores.length);
+            friendList.forEach(function(e) {
+                e.scores.forEach(function(e,i) {
+                    compareScores[i] = Math.abs(e - searchScores[i]);
+                });
+                console.log(compareScores);
+
+            });
+
+
             friendList.push(req.body);
-            //TODO add friend to friend list
+            res.send(friendList);
         }
     });
 }
