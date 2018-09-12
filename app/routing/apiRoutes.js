@@ -9,19 +9,44 @@ module.exports = function(app) {
 
     app.post("/api/friends", function(req, res){
         if (req.body) {
-            var searchScores = req.body.scores;
-            var compareScores = new Array(searchScores.length);
-            friendList.forEach(function(e) {
-                e.scores.forEach(function(e,i) {
-                    compareScores[i] = Math.abs(e - searchScores[i]);
-                });
-                console.log(compareScores);
-                
+            var submitScores = req.body.scores;
+            var friendScores = new Array(friendList.length);
+            for (var i = 0; i < friendList.length; i++) {
+                var otherScores = friendList[i].scores;
+                var diff = new Array(otherScores.length);
+                var fives = 0;
+                var ones = 0;
+                var zeroes = 0;
+                for (var j = 0; j < otherScores.length; j++) {
+                    diff[j] = submitScores[j] - otherScores[j];
+                    if (diff[j] == 0) {
+                        zeroes++;
+                    }
+                    if (submitScores[j] == otherScores[j]) {
+                        if(submitScores[j] == 5) {
+                            fives++;
+                        } else if (submitScores[j]==1) {
+                            ones++;
+                        }
+                    }
+                }
+                friendScores[i] = {
+                    compare: {
+                        diff: diff,
+                        zeroes: zeroes
+                    },
+                    matches: {
+                        fives: fives,
+                        ones: ones
+                    }
+                }
+            }
+            friendList.push({
+                name: req.body.name,
+                photo: req.body.photo,
+                scores: req.body.scores
             });
-
-
-            friendList.push(req.body);
-            res.send(friendList);
+            res.send(friendScores);
         }
     });
 }
