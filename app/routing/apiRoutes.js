@@ -45,6 +45,35 @@ module.exports = function (app) {
                     }
                 }
             }
+            var zeroFriend = {
+                name: "",
+                photo: "",
+                zeroes: 0
+            }
+            var fiveFriend = {
+                name: "",
+                photo: "",
+                fives: []
+            }
+            var oneFriend = {
+                name: "",
+                photo: "",
+                ones: []
+            }
+            var totalFriend = {
+                name: "",
+                photo: "",
+                total: 0
+            }
+            
+            
+            friendScores.forEach(function(e,i) {
+                if (Math.random() < 0.5) {
+
+                }
+
+
+            });
             friendList.push({
                 name: req.body.name,
                 photo: req.body.photo,
