@@ -1,13 +1,13 @@
 var friendList = require("../data/friends");
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-module.exports = function(app) {
+module.exports = function (app) {
 
-    app.get("/api/friends", function(req,res) {
+    app.get("/api/friends", function (req, res) {
         res.json(friendList);
     });
 
-    app.post("/api/friends", function(req, res){
+    app.post("/api/friends", function (req, res) {
         if (req.body) {
             var submitScores = req.body.scores;
             var friendScores = new Array(friendList.length);
@@ -23,14 +23,18 @@ module.exports = function(app) {
                         zeroes++;
                     }
                     if (submitScores[j] == otherScores[j]) {
-                        if(submitScores[j] == 5) {
+                        if (submitScores[j] == 5) {
                             fives++;
-                        } else if (submitScores[j]==1) {
+                        } else if (submitScores[j] == 1) {
                             ones++;
                         }
                     }
                 }
                 friendScores[i] = {
+                    friend: {
+                        name: friendList[i].name,
+                        photo: friendList[i].photo
+                    },
                     compare: {
                         diff: diff,
                         zeroes: zeroes
