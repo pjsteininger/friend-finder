@@ -44,7 +44,22 @@ $(document).ready(function () {
 
             // AJAX post the data to the friends API.
             $.post("/api/friends", userData, function (data) {
-                
+                var friendSug = $("<div>");
+                friendSug.css({
+                    height: "100%",
+                    width: "100%",
+                    "background-color": "rgba(0,0,0,0.4)",
+                    "text-align": "center",
+                    padding: "20vh 0 0 0",
+                    position: "absolute",
+                    top: 0
+                });
+                var imgSources = [data.fiveFriend.photo,
+                    data.oneFriend.photo,
+                    data.zeroFriend.photo,
+                    data.totalFriend.photo];
+                friendSug.append("<img src='"+imgSources[0]+"' alt='profile pic' height=200px>");
+                $("body").append(friendSug);
                 console.log(data);
 
             });
