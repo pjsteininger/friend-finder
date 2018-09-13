@@ -46,19 +46,26 @@ $(document).ready(function () {
             $.post("/api/friends", userData, function (data) {
                 var friendSug = $("<div>");
                 friendSug.css({
-                    height: "100%",
-                    width: "100%",
+                    "max-height": "600px",
+                    "max-width": "800px",
                     "background-color": "rgba(0,0,0,0.4)",
                     "text-align": "center",
-                    padding: "20vh 0 0 0",
-                    position: "absolute",
-                    top: 0
+                    margin: "25vh auto",
+
                 });
+                friendSug.append($("<div>").css({
+                    height: "50%",
+                    width: "50%",
+                    "background-color": "rgba(20,20,20,0.9",
+                    "text-align": "center",
+                    margin: "auto",
+                    padding: "200px, 100px, 200px, 100px"
+                }));
                 var imgSources = [data.fiveFriend.photo,
                     data.oneFriend.photo,
                     data.zeroFriend.photo,
                     data.totalFriend.photo];
-                friendSug.append("<img src='"+imgSources[0]+"' alt='profile pic' height=200px>");
+                friendSug.children().append("<img src='"+imgSources[0]+"' alt='profile pic' height=200px>");
                 $("body").append(friendSug);
                 console.log(data);
 
