@@ -53,7 +53,7 @@ module.exports = function (app) {
                 zeroFriend: {
                     name: friendScores[0].friend.name,
                     photo: friendScores[0].friend.photo,
-                    zeroes: friendScores[0].matches.zeroes
+                    zeroes: friendScores[0].compare.zeroes
                 },
                 fiveFriend: {
                     name: friendScores[0].friend.name,
@@ -68,7 +68,7 @@ module.exports = function (app) {
                 totalFriend: {
                     name: friendScores[0].friend.name,
                     photo: friendScores[0].friend.photo,
-                    total: friendScores[0].matches.total
+                    total: friendScores[0].compare.diff.reduce(reducer)
                 }
             }
 
@@ -90,7 +90,7 @@ module.exports = function (app) {
                     friendSuggestions.oneFriend.photo = friendScores[i].friend.photo;
                 }
                 if (friendScores[i].compare.diff.reduce(reducer) > friendSuggestions.totalFriend.total) {
-                    friendSuggestions.totalFriend.total = friendScores[i].comapre.diff.reduce(reducer);
+                    friendSuggestions.totalFriend.total = friendScores[i].compare.diff.reduce(reducer);
                     friendSuggestions.totalFriend.name = friendScores[i].friend.name;
                     friendSuggestions.totalFriend.photo = friendScores[i].friend.photo;
                 }
