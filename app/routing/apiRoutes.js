@@ -51,56 +51,53 @@ module.exports = function (app) {
             }
             friendSuggestions = {
                 zeroFriend: {
-                    name: "",
-                    photo: "",
-                    zeroes: 0
+                    name: friendScores[0].friend.name,
+                    photo: friendScores[0].friend.photo,
+                    zeroes: friendScores[0].matches.zeroes
                 },
                 fiveFriend: {
-                    name: "",
-                    photo: "",
-                    fives: []
+                    name: friendScores[0].friend.name,
+                    photo: friendScores[0].friend.photo,
+                    fives: friendScores[0].matches.fives
                 },
                 oneFriend: {
-                    name: "",
-                    photo: "",
-                    ones: []
+                    name: friendScores[0].friend.name,
+                    photo: friendScores[0].friend.photo,
+                    ones: friendScores[0].matches.ones
                 },
                 totalFriend: {
-                    name: "",
-                    photo: "",
-                    total: 0
+                    name: friendScores[0].friend.name,
+                    photo: friendScores[0].friend.photo,
+                    total: friendScores[0].matches.total
                 }
             }
-            
 
 
-            friendScores.forEach(function (e) {
-                if (e.matches.zeroes > friendSuggestions.zeroFriend.zeroes) {
-                    friendSuggestions.zeroFriend.zeroes = e.matches.zeroes;
-                    friendSuggestions.zeroFriend.name = e.friend.name;
-                    friendSuggestions.zeroFriend.photo = e.friend.photo;
+            for (var i = 1; i < friendScores.length; i++) {
+                if (friendScores[i].matches.zeroes > friendSuggestions.zeroFriend.zeroes) {
+                    friendSuggestions.zeroFriend.zeroes = friendScores[i].matches.zeroes;
+                    friendSuggestions.zeroFriend.name = friendScores[i].friend.name;
+                    friendSuggestions.zeroFriend.photo = friendScores[i].friend.photo;
                 }
-                if (e.matches.fives > friendSuggestions.fiveFriend.fives) {
-                    friendSuggestions.fiveFriend.fives = e.matches.fives;
-                    friendSuggestions.fiveFriend.name = e.friend.name;
-                    friendSuggestions.fiveFriend.photo = e.friend.photo;
+                if (friendScores[i].matches.fives > friendSuggestions.fiveFriend.fives) {
+                    friendSuggestions.fiveFriend.fives = friendScores[i].matches.fives;
+                    friendSuggestions.fiveFriend.name = friendScores[i].friend.name;
+                    friendSuggestions.fiveFriend.photo = friendScores[i].friend.photo;
                 }
-                if (e.matches.ones > friendSuggestions.oneFriend.ones) {
-                    friendSuggestions.oneFriend.ones = e.matches.ones;
-                    friendSuggestions.oneFriend.name = e.friend.name;
-                    friendSuggestions.oneFriend.photo = e.friend.photo;
+                if (friendScores[i].matches.ones > friendSuggestions.oneFriend.ones) {
+                    friendSuggestions.oneFriend.ones = friendScores[i].matches.ones;
+                    friendSuggestions.oneFriend.name = friendScores[i].friend.name;
+                    friendSuggestions.oneFriend.photo = friendScores[i].friend.photo;
                 }
-                if (e.compare.diff.reduce(reducer) > friendSuggestions.totalFriend.total) {
-                    friendSuggestions.totalFriend.total = e.comapre.diff.reduce(reducer);
-                    friendSuggestions.totalFriend.name = e.friend.name;
-                    friendSuggestions.totalFriend.photo = e.friend.photo;
+                if (friendScores[i].compare.diff.reduce(reducer) > friendSuggestions.totalFriend.total) {
+                    friendSuggestions.totalFriend.total = friendScores[i].comapre.diff.reduce(reducer);
+                    friendSuggestions.totalFriend.name = friendScores[i].friend.name;
+                    friendSuggestions.totalFriend.photo = friendScores[i].friend.photo;
                 }
-                    if (Math.random() < 0.5) {
+                if (Math.random() < 0.5) {
 
-                    }
-
-
-            });
+                }
+            };
             friendList.push(new Friend(req.body.name, req.body.photo, submitScores));
             console.log(friendList);
             console.log(friendSuggestions);

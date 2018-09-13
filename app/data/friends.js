@@ -5,6 +5,8 @@ var Friend = function (name, photo, scores) {
 }
 
 var friendList = [
+    new Friend("Tom", "https://pbs.twimg.com/profile_images/1237550450/mstom_400x400.jpg",
+        [2, 5, 5, 3, 3, 4, 3, 2, 1, 1, 1, 2]),
     new Friend("Jim", "https://pbs.twimg.com/profile_images/3171824697/ef75d90df2e65ce326acf30262df5918_400x400.jpeg",
         [3, 5, 3, 3, 4, 2, 5, 4, 4, 1, 1, 2]),
     new Friend("Rando Catfishian", "https://upload.wikimedia.org/wikipedia/commons/d/d8/Channelcat.jpg",
