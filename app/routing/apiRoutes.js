@@ -1,6 +1,7 @@
-var friendList = require("../data/friends");
+var fr = require("../data/friends");
+var Friend = fr.Friend;
+var friendList = fr.friendList;
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
 module.exports = function (app) {
 
     app.get("/api/friends", function (req, res) {
@@ -9,7 +10,10 @@ module.exports = function (app) {
 
     app.post("/api/friends", function (req, res) {
         if (req.body) {
-            var submitScores = req.body.scores;
+            var submitScores = Array(req.body.scores.length);
+            req.body.scores.forEach((e,i) => {
+                submitScores[i] = parseInt(e);
+            });
             var friendScores = new Array(friendList.length);
             for (var i = 0; i < friendList.length; i++) {
                 var otherScores = friendList[i].scores;
@@ -18,7 +22,7 @@ module.exports = function (app) {
                 var ones = 0;
                 var zeroes = 0;
                 for (var j = 0; j < otherScores.length; j++) {
-                    diff[j] = submitScores[j] - otherScores[j];
+                    diff[j] = Math.abs(submitScores[j] - otherScores[j]);
                     if (diff[j] == 0) {
                         zeroes++;
                     }
@@ -74,11 +78,8 @@ module.exports = function (app) {
 
 
             });
-            friendList.push({
-                name: req.body.name,
-                photo: req.body.photo,
-                scores: req.body.scores
-            });
+            friendList.push(new Friend(req.body.name, req.body.photo, submitScores));
+            console.log(friendList);
             res.send(friendScores);
         }
     });

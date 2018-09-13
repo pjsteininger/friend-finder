@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $("#submit").on("click", function (event) {
         event.preventDefault();
-
+        var interests = ["books", "art", "music", "television", "movies", "food", "games", "sports", "exercise", "outdoors", "crafts", "cars"];
         // Form validation
         function validateForm() {
             var isValid = true;
@@ -19,6 +19,7 @@ $(document).ready(function () {
             });
             return isValid;
         }
+        
         // If all required fields are filled
         if (validateForm()) {
             // Create an object for the user"s data
