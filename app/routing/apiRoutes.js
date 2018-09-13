@@ -74,8 +74,8 @@ module.exports = function (app) {
 
 
             for (var i = 1; i < friendScores.length; i++) {
-                if (friendScores[i].matches.zeroes > friendSuggestions.zeroFriend.zeroes) {
-                    friendSuggestions.zeroFriend.zeroes = friendScores[i].matches.zeroes;
+                if (friendScores[i].compare.zeroes > friendSuggestions.zeroFriend.zeroes) {
+                    friendSuggestions.zeroFriend.zeroes = friendScores[i].compare.zeroes;
                     friendSuggestions.zeroFriend.name = friendScores[i].friend.name;
                     friendSuggestions.zeroFriend.photo = friendScores[i].friend.photo;
                 }
@@ -89,7 +89,7 @@ module.exports = function (app) {
                     friendSuggestions.oneFriend.name = friendScores[i].friend.name;
                     friendSuggestions.oneFriend.photo = friendScores[i].friend.photo;
                 }
-                if (friendScores[i].compare.diff.reduce(reducer) > friendSuggestions.totalFriend.total) {
+                if (friendScores[i].compare.diff.reduce(reducer) < friendSuggestions.totalFriend.total) {
                     friendSuggestions.totalFriend.total = friendScores[i].compare.diff.reduce(reducer);
                     friendSuggestions.totalFriend.name = friendScores[i].friend.name;
                     friendSuggestions.totalFriend.photo = friendScores[i].friend.photo;
@@ -99,9 +99,9 @@ module.exports = function (app) {
                 }
             };
             friendList.push(new Friend(req.body.name, req.body.photo, submitScores));
-            console.log(friendList);
+            console.log(friendScores);
             console.log(friendSuggestions);
-            res.send(friendScores);
+            res.send(friendSuggestions);
         }
     });
 }
