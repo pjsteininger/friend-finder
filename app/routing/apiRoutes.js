@@ -11,7 +11,7 @@ module.exports = function (app) {
     app.post("/api/friends", function (req, res) {
         if (req.body) {
             var submitScores = Array(req.body.scores.length);
-            req.body.scores.forEach((e,i) => {
+            req.body.scores.forEach((e, i) => {
                 submitScores[i] = parseInt(e);
             });
             var friendScores = new Array(friendList.length);
@@ -49,37 +49,61 @@ module.exports = function (app) {
                     }
                 }
             }
-            var zeroFriend = {
-                name: "",
-                photo: "",
-                zeroes: 0
-            }
-            var fiveFriend = {
-                name: "",
-                photo: "",
-                fives: []
-            }
-            var oneFriend = {
-                name: "",
-                photo: "",
-                ones: []
-            }
-            var totalFriend = {
-                name: "",
-                photo: "",
-                total: 0
-            }
-            
-            
-            friendScores.forEach(function(e,i) {
-                if (Math.random() < 0.5) {
-
+            friendSuggestions = {
+                zeroFriend: {
+                    name: "",
+                    photo: "",
+                    zeroes: 0
+                },
+                fiveFriend: {
+                    name: "",
+                    photo: "",
+                    fives: []
+                },
+                oneFriend: {
+                    name: "",
+                    photo: "",
+                    ones: []
+                },
+                totalFriend: {
+                    name: "",
+                    photo: "",
+                    total: 0
                 }
+            }
+            
+
+
+            friendScores.forEach(function (e) {
+                if (e.matches.zeroes > friendSuggestions.zeroFriend.zeroes) {
+                    friendSuggestions.zeroFriend.zeroes = e.matches.zeroes;
+                    friendSuggestions.zeroFriend.name = e.friend.name;
+                    friendSuggestions.zeroFriend.photo = e.friend.photo;
+                }
+                if (e.matches.fives > friendSuggestions.fiveFriend.fives) {
+                    friendSuggestions.fiveFriend.fives = e.matches.fives;
+                    friendSuggestions.fiveFriend.name = e.friend.name;
+                    friendSuggestions.fiveFriend.photo = e.friend.photo;
+                }
+                if (e.matches.ones > friendSuggestions.oneFriend.ones) {
+                    friendSuggestions.oneFriend.ones = e.matches.ones;
+                    friendSuggestions.oneFriend.name = e.friend.name;
+                    friendSuggestions.oneFriend.photo = e.friend.photo;
+                }
+                if (e.compare.diff.reduce(reducer) > friendSuggestions.totalFriend.total) {
+                    friendSuggestions.totalFriend.total = e.comapre.diff.reduce(reducer);
+                    friendSuggestions.totalFriend.name = e.friend.name;
+                    friendSuggestions.totalFriend.photo = e.friend.photo;
+                }
+                    if (Math.random() < 0.5) {
+
+                    }
 
 
             });
             friendList.push(new Friend(req.body.name, req.body.photo, submitScores));
             console.log(friendList);
+            console.log(friendSuggestions);
             res.send(friendScores);
         }
     });
