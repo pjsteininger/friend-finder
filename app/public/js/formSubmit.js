@@ -1,4 +1,18 @@
 $(document).ready(function () {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $("#submit").on("click", function (event) {
         event.preventDefault();
         var interests = ["books", "art", "music", "television", "movies", "food", "games", "sports", "exercise", "outdoors", "crafts", "cars"];
@@ -19,7 +33,7 @@ $(document).ready(function () {
             });
             return isValid;
         }
-        
+
         // If all required fields are filled
         if (validateForm()) {
             // Create an object for the user"s data
@@ -44,30 +58,58 @@ $(document).ready(function () {
 
             // AJAX post the data to the friends API.
             $.post("/api/friends", userData, function (data) {
-                var friendSug = $("<div>");
-                friendSug.css({
-                    "max-height": "600px",
-                    "max-width": "800px",
+                var friendSug = $("<div>").css({
+                    "top": "0",
+                    "right": "0",
+                    "left": "0",
+                    "bottom": "0",
                     "background-color": "rgba(0,0,0,0.4)",
                     "text-align": "center",
-                    margin: "25vh auto",
-
+                    "position": "absolute",
                 });
-                friendSug.append($("<div>").css({
-                    height: "50%",
-                    width: "50%",
-                    "background-color": "rgba(20,20,20,0.9",
+                var msgBox = $("<div>").css({
+                    "position": "absolute",
+                    "left": "15%",
+                    "top": "15%",
+                    "max-height": "70%",
+                    "width": "70%",
+                    "background-color": "rgba(40,40,40,0.7)",
                     "text-align": "center",
-                    margin: "auto",
-                    padding: "200px, 100px, 200px, 100px"
-                }));
-                var imgSources = [data.fiveFriend.photo,
-                    data.oneFriend.photo,
-                    data.zeroFriend.photo,
-                    data.totalFriend.photo];
-                friendSug.children().append("<img src='"+imgSources[0]+"' alt='profile pic' height=200px>");
+                    "margin": "auto",
+                    "border-radius": "1em",
+                    "border": "1px solid rgba(10,10,10,0.9)"
+                });
+            
+                // var imgSources = [data.fiveFriend.photo,
+                // data.oneFriend.photo,
+                // data.zeroFriend.photo,
+                // data.totalFriend.photo];
+                var profileImg = $("<img>");
+                profileImg.attr({
+                    src: '../images/profiledefault.png',
+                    alt: 'profile pic',
+                });
+                profileImg.css({
+                    "max-width": "50%",
+                    "max-height": "300px",
+                    "margin": "5vh auto ",
+                    "display": "block"
+                });
+                var msg = $("<h2>");
+                msg.css({
+                    "width": "80%",
+                    "color": "rgb(230,230,240)",
+                    "background-color": "rgb(30,30,30)",
+                    "margin": "auto auto 5vh auto",
+                    "padding": "5%",
+                    "position": "block",
+                });
+                msg.text("You matched with %NAME%!");
+                msgBox.append(profileImg);
+                msgBox.append(msg);
+                friendSug.append(msgBox);
                 $("body").append(friendSug);
-                console.log(data);
+                // console.log(data);
 
             });
         } else {
