@@ -15,6 +15,8 @@ $(document).ready(function () {
 
     $("#submit").on("click", function (event) {
         event.preventDefault();
+
+
         var interests = ["books", "art", "music", "television", "movies", "food", "games", "sports", "exercise", "outdoors", "crafts", "cars"];
         // Form validation
         function validateForm() {
@@ -56,9 +58,26 @@ $(document).ready(function () {
                 ]
             };
 
+            $.get(userData.photo)
+                .done(function () {
+                    $.post("/api/friends", userData).then(createModal);
+                })
+                .fail(function () {
+                    userData.photo = '../images/profiledefault.png';
+                    $.post("/api/friends", userData).then(createModal);
+                });
+            $.get(userData.photo)
+                .done(function () {
+                    console.log("success");
+                })
+                .fail(function () {
+                    userData.photo = '../images/profiledefault.png';
+                    console.log("new photo");
+                });
+
             // AJAX post the data to the friends API.
-            $.post("/api/friends", userData, function (data) {
-                var friendSug = $("<div>").css({
+            var createModal = function (data) {
+                var frModal = $("<div>").css({
                     "top": "0",
                     "right": "0",
                     "left": "0",
@@ -66,6 +85,9 @@ $(document).ready(function () {
                     "background-color": "rgba(0,0,0,0.4)",
                     "text-align": "center",
                     "position": "absolute",
+                });
+                $(frModal).on("click", function () {
+                    $(frModal).remove();
                 });
                 var msgBox = $("<div>").css({
                     "position": "absolute",
@@ -79,14 +101,19 @@ $(document).ready(function () {
                     "border-radius": "1em",
                     "border": "1px solid rgba(10,10,10,0.9)"
                 });
-            
-                // var imgSources = [data.fiveFriend.photo,
-                // data.oneFriend.photo,
-                // data.zeroFriend.photo,
-                // data.totalFriend.photo];
+
+                var imgSources = [data.fiveFriend.photo,
+                data.oneFriend.photo,
+                data.zeroFriend.photo,
+                data.totalFriend.photo];
                 var profileImg = $("<img>");
+
+
+
+
+
                 profileImg.attr({
-                    src: '../images/profiledefault.png',
+                    src: imgSources[0],
                     alt: 'profile pic',
                 });
                 profileImg.css({
@@ -103,15 +130,16 @@ $(document).ready(function () {
                     "margin": "auto auto 5vh auto",
                     "padding": "5%",
                     "position": "block",
+                    "border-radius": "5px"
                 });
-                msg.text("You matched with %NAME%!");
+                msg.text("You matched with "+data.fiveFriend.name+"!");
                 msgBox.append(profileImg);
                 msgBox.append(msg);
-                friendSug.append(msgBox);
-                $("body").append(friendSug);
+                frModal.append(msgBox);
+                $("body").append(frModal);
                 // console.log(data);
+            };
 
-            });
         } else {
             alert("Please fill out all fields before submitting!");
         }

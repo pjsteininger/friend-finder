@@ -98,9 +98,8 @@ module.exports = function (app) {
 
                 }
             };
+
             friendList.push(new Friend(req.body.name, req.body.photo, submitScores));
-            console.log(friendScores);
-            console.log(friendSuggestions);
             res.send(friendSuggestions);
         }
     });
